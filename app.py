@@ -5,6 +5,15 @@ import os
 import logging
 import sqlite3
 
+# Load environment variables from .env file if it exists (for local development)
+if os.path.exists('.env'):
+    with open('.env') as f:
+        for line in f:
+            line = line.strip()
+            if line and not line.startswith('#') and '=' in line:
+                key, val = line.split('=', 1)
+                os.environ[key.strip()] = val.strip()
+
 # Configure logging to see OIDC errors
 logging.basicConfig(level=logging.DEBUG)
 
@@ -43,10 +52,10 @@ app.config['SESSION_COOKIE_SAMESITE'] = 'None' # Critical for OIDC redirects
 app.config['SESSION_COOKIE_SECURE'] = True
 Session(app)
 
-# IdentityHub Credentials
-IDENTITY_HUB_ISS_URL = 'https://ogsiamapp.azurewebsites.net'
-CLIENT_ID = '33e1f48d-8071-4f3a-b8b5-3d0948f9a93d'
-CLIENT_SECRET = 'ICALeUurpuzYfGxh38VJLGeLlC5NtYgCyT+l4/nudfY='
+# IdentityHub Credentials (loaded from environment variables in production)
+IDENTITY_HUB_ISS_URL = os.getenv('IDENTITY_HUB_ISS_URL', 'https://ogsiamapp.azurewebsites.net')
+CLIENT_ID = os.getenv('IDENTITY_HUB_CLIENT_ID', 'your-identity-hub-client-id')
+CLIENT_SECRET = os.getenv('IDENTITY_HUB_CLIENT_SECRET', 'your-identity-hub-client-secret')
 
 oauth = OAuth(app)
 oauth.register(

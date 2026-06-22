@@ -216,3 +216,20 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Database
+contacts.db
+
+# Flask session files
+flask_session/
+
+# Visual Studio configuration
+.vs/
+.vscode/
+*.sln
+*.slnx
+*.suo
+
+# Local development script
+start-flask.ps1
+
